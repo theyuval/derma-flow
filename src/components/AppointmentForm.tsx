@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
-import { sendReminder } from '@/lib/sendEmail';
+// Import sendReminder but don't require it
+// import { sendReminder } from '@/lib/sendEmail';
 
 interface AppointmentFormProps {
   clientId: string;
@@ -47,12 +48,18 @@ export default function AppointmentForm({ clientId, clientEmail, clientName }: A
       
       if (error) throw error;
       
-      // Send email reminder
-      await sendReminder(clientEmail, {
-        treatment: formData.treatment,
-        date_time: formData.dateTime,
-        client_name: clientName
-      });
+      // Email functionality commented out for now
+      /* 
+      try {
+        await sendReminder(clientEmail, {
+          treatment: formData.treatment,
+          date_time: formData.dateTime,
+          client_name: clientName
+        });
+      } catch (emailError) {
+        console.error('Email sending failed, but appointment was created:', emailError);
+      }
+      */
       
       // Redirect to appointment details
       router.push(`/appointments/${data.id}`);
