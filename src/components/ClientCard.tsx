@@ -1,9 +1,8 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 
-interface ClientCardProps {
+interface ClientProps {
   client: {
     id: string;
     name: string;
@@ -15,65 +14,55 @@ interface ClientCardProps {
   };
 }
 
-export default function ClientCard({ client }: ClientCardProps) {
+export default function ClientCard({ client }: ClientProps) {
   const { id, name, email, phone, photo_url, last_appointment, next_appointment } = client;
   
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-      <div className="flex items-center space-x-4 mb-4">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden bg-gray-200">
-          {photo_url ? (
-            <Image
-              src={photo_url}
-              alt={name}
-              fill
-              className="object-cover"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-500 text-xl font-bold">
-              {name.charAt(0).toUpperCase()}
+    <Link
+      href={`/clients/${id}`}
+      className="block hover:bg-gray-50"
+    >
+      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+        <div className="px-4 py-5 sm:px-6">
+          <div className="flex items-center">
+            {photo_url ? (
+              <img
+                className="h-12 w-12 rounded-full mr-4"
+                src={photo_url}
+                alt={`${name}'s profile`}
+              />
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+                <span className="text-indigo-800 font-medium text-lg">
+                  {name.charAt(0).toUpperCase()}
+                </span>
+              </div>
+            )}
+            <div>
+              <h3 className="text-lg leading-6 font-medium text-gray-900">{name}</h3>
+              <p className="text-gray-600">{email}</p>
+              {phone && <p className="text-gray-600">{phone}</p>}
             </div>
-          )}
-        </div>
-        
-        <div>
-          <h3 className="text-lg font-semibold">{name}</h3>
-          <p className="text-gray-600">{email}</p>
-          {phone && <p className="text-gray-600">{phone}</p>}
-        </div>
-      </div>
-      
-      <div className="border-t pt-4 mt-4">
-        {next_appointment && (
-          <div className="mb-2">
-            <span className="text-sm font-medium text-gray-500">Next Appointment:</span>
-            <p className="text-indigo-600">{new Date(next_appointment).toLocaleDateString()}</p>
           </div>
-        )}
+        </div>
         
-        {last_appointment && (
-          <div>
-            <span className="text-sm font-medium text-gray-500">Last Appointment:</span>
-            <p>{new Date(last_appointment).toLocaleDateString()}</p>
+        {(next_appointment || last_appointment) && (
+          <div className="border-t border-gray-200 px-4 py-4 sm:px-6 bg-gray-50">
+            <div className="text-sm">
+              {next_appointment && (
+                <p className="mb-1">
+                  <span className="font-medium">Next Appointment:</span> {new Date(next_appointment).toLocaleString()}
+                </p>
+              )}
+              {last_appointment && (
+                <p>
+                  <span className="font-medium">Last Appointment:</span> {new Date(last_appointment).toLocaleString()}
+                </p>
+              )}
+            </div>
           </div>
         )}
       </div>
-      
-      <div className="mt-4 pt-4 border-t flex justify-between">
-        <Link
-          href={`/clients/${id}`}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
-        >
-          View Profile
-        </Link>
-        
-        <Link
-          href={`/appointments/new?client=${id}`}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
-        >
-          Book Appointment
-        </Link>
-      </div>
-    </div>
+    </Link>
   );
 } 
