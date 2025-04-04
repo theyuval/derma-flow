@@ -2,7 +2,13 @@ import sgMail from '@sendgrid/mail';
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY!);
 
-export async function sendReminder(email: string, appointment: any) {
+interface Appointment {
+  treatment: string;
+  date_time: string;
+  [key: string]: any;
+}
+
+export async function sendReminder(email: string, appointment: Appointment) {
   const msg = {
     to: email,
     from: process.env.EMAIL_FROM || 'your-email@example.com', // Should be verified sender in SendGrid

@@ -4,9 +4,10 @@ import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import type { User } from '@supabase/supabase-js';
 
 export default function Home() {
-  const [user, setUser] = useState<any>(null);
+  const [_user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

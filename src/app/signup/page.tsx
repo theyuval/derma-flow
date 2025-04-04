@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
+interface AuthError {
+  message: string;
+  [key: string]: any;
+}
+
 export default function Signup() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -26,7 +31,6 @@ export default function Signup() {
     setLoading(true);
     setErrorMessage('');
     
-    // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
       setErrorMessage('Passwords do not match');
       setLoading(false);
@@ -35,7 +39,7 @@ export default function Signup() {
     
     try {
       // Create a new user in Supabase Auth
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -51,9 +55,10 @@ export default function Signup() {
       
       // Redirect to confirmation page or login
       router.push('/login');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error signing up:', error);
-      setErrorMessage(error.message || 'An error occurred during signup');
+      const authError = error as AuthError;
+      setErrorMessage(authError.message || 'An error occurred during signup');
     } finally {
       setLoading(false);
     }

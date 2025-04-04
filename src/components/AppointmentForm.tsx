@@ -8,11 +8,11 @@ import { supabase } from '@/lib/supabase';
 
 interface AppointmentFormProps {
   clientId: string;
-  clientEmail: string;
-  clientName: string;
+  _clientEmail: string;  // Prefixed with underscore to indicate it's not used
+  _clientName: string;   // Prefixed with underscore to indicate it's not used
 }
 
-export default function AppointmentForm({ clientId, clientEmail, clientName }: AppointmentFormProps) {
+export default function AppointmentForm({ clientId, _clientEmail, _clientName }: AppointmentFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({

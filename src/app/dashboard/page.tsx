@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import Navbar from '@/components/Navbar';
+import type { User } from '@supabase/supabase-js';
 
 export default function Dashboard() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [_user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState({
     totalClients: 0,
@@ -16,7 +17,22 @@ export default function Dashboard() {
     todayAppointments: 0,
     recentPhotos: 0,
   });
-  const [recentAppointments, setRecentAppointments] = useState<any[]>([]);
+  
+  interface Client {
+    id: string;
+    name: string;
+    email: string;
+  }
+  
+  interface Appointment {
+    id: string;
+    date_time: string;
+    treatment: string;
+    status: string;
+    clients: Client;
+  }
+  
+  const [recentAppointments, setRecentAppointments] = useState<Appointment[]>([]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -32,7 +48,7 @@ export default function Dashboard() {
     checkUser();
 
     const { data: authListener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      (event, _session) => {
         if (event === 'SIGNED_OUT') {
           router.push('/login');
         }
@@ -103,7 +119,13 @@ export default function Dashboard() {
         recentPhotos: recentPhotosCount || 0,
       });
 
-      setRecentAppointments(appointments || []);
+      // Transform the data if needed to match our expected structure
+      const typedAppointments = appointments?.map(appt => ({
+        ...appt,
+        clients: Array.isArray(appt.clients) ? appt.clients[0] : appt.clients
+      })) || [];
+
+      setRecentAppointments(typedAppointments);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
     } finally {

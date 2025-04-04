@@ -5,6 +5,11 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 
+interface AuthError {
+  message: string;
+  [key: string]: any;
+}
+
 export default function Login() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -36,9 +41,10 @@ export default function Login() {
       
       // Redirect to dashboard on successful login
       router.push('/dashboard');
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error logging in:', error);
-      setErrorMessage(error.message || 'An error occurred during login');
+      const authError = error as AuthError;
+      setErrorMessage(authError.message || 'An error occurred during login');
     } finally {
       setLoading(false);
     }
