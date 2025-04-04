@@ -1,6 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "npm install --no-save tailwindcss@3.3.5 postcss@8.4.31 autoprefixer@10.4.16 && npm run build",
-  "installCommand": "npm ci",
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
   "outputDirectory": ".next"
 } 
