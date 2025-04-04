@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# DermaFlow - Medical Cosmetics CRM
 
-## Getting Started
+DermaFlow is a comprehensive CRM system designed specifically for medical cosmetics practices. It helps practitioners manage clients, appointments, treatment photos, and consent forms in one centralized platform.
 
-First, run the development server:
+## Features
+
+- **Authentication & Security**: Secure login and sign-up functionality
+- **Client Management**: Maintain detailed client profiles with treatment history
+- **Appointment Scheduling**: Book and manage client appointments
+- **Treatment Gallery**: Upload and track before/after treatment photos
+- **Notes & Consent Forms**: Document treatment details and store consent forms
+- **Email Reminders**: Automated appointment reminders via SendGrid
+
+## Tech Stack
+
+- **Frontend**: Next.js with TypeScript and TailwindCSS
+- **Backend & Auth**: Supabase (PostgreSQL database and authentication)
+- **Image Storage**: Cloudinary
+- **Email Service**: SendGrid
+- **Deployment**: Vercel (recommended)
+
+## Setup Instructions
+
+### Prerequisites
+
+- Node.js (v16+)
+- npm or yarn
+- Supabase account
+- Cloudinary account
+- SendGrid account
+
+### Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/yourusername/dermaflow.git
+cd dermaflow
+```
+
+2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables
+
+Copy the `.env.local.example` file to `.env.local` and fill in your API keys:
+
+```bash
+cp .env.local.example .env.local
+```
+
+4. Set up Supabase database
+
+Create the following tables in your Supabase project:
+
+- clients
+- appointments
+- treatment_photos
+- session_notes
+
+SQL schema is available in `database/schema.sql`.
+
+5. Run the development server
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The easiest way to deploy DermaFlow is with Vercel:
 
-## Learn More
+1. Push your code to a GitHub repository
+2. Import the project in Vercel
+3. Set the environment variables in Vercel dashboard
+4. Deploy!
 
-To learn more about Next.js, take a look at the following resources:
+## Contributing
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
